@@ -84,6 +84,7 @@ if __name__ == "__main__":
                     lambda x: x == '-d': lambda y: ['--debug'],
                     lambda x: x == '--pie-mode': lambda y: ['--pie-mode'],
                     lambda x: x == '--stack-vars': lambda y: ['--stack-vars'],
+                    lambda x: x == '--global-vars': lambda y: ['--global-vars'],
                     lambda x: x.startswith("-march=") : set_ida_arch,
                   }
 
