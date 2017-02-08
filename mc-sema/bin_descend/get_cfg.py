@@ -121,7 +121,8 @@ EXTERNAL_DATA_COMMENTS = [
         ]
 
 TO_RECOVER = {
-  "stack_vars" : False
+  "stack_vars" : False,
+  "global_vars" : False
 }
 
 def DEBUG(s):
@@ -1855,7 +1856,7 @@ def recoverCfg(to_recover, outf, exports_are_apis=False):
     preprocessBinary()
 
     processDataSegments(M, new_eas)
-    
+
     for name in to_recover:
 
         if name in exports:
@@ -2180,8 +2181,14 @@ if __name__ == "__main__":
 
     parser.add_argument("--stack-vars", action="store_true",
         default=False,
-        help="Attempt to recover local stack varible information"
+        help="Attempt to recover local stack variable information"
         )
+
+    parser.add_argument("--global-vars", action="store_true",
+        default=False,
+        help="Attempt to recover global variable information"
+        )
+
     parser.add_argument("--pie-mode", action="store_true", default=False,
             help="Assume all immediate values are constants (useful for ELFs built with -fPIE")
 
@@ -2196,8 +2203,12 @@ if __name__ == "__main__":
         DEBUG("Using PIE mode.")
         PIE_MODE = True
 
+    # global and stack vars may need to be intertwined in terms of functionality, depending on what schemes/heuristics are developed
     if args.stack_vars:
       TO_RECOVER["stack_vars"] = True
+
+    if args.global_vars:
+      TO_RECOVER["global_vars"] = True
 
     # for batch mode: ensure IDA is done processing
     if args.batch:

@@ -83,15 +83,16 @@ message Variable {
     
     // instructions referring to this variable 
     repeated    Reference ref_eas = 4;
-
-    // we probably want some kind of 'address' information here? but i'm not
-    // sure. we're only doing stack vars for now so it's not as important as
-    // when we start including e.g. globals...
 }
 
 message StackVar {
     required Variable   var = 1;
     required int64      sp_offset = 2;
+}
+
+message GlobalVar {
+    required Variable   var = 1;
+    required int64      address = 2; 
 }
 
 message Function {
@@ -158,6 +159,7 @@ message Module {
     repeated    EntrySymbol         entries = 5;
     repeated    ExternalData        external_data = 6;
     repeated    OffsetTable         offset_tables = 7;
+    repeated    GlobalVar           global_vars = 8;
 }
 
 // The following information is used to guide the disassembley process. 
